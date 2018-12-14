@@ -13,7 +13,7 @@ union semun{
 	struct semid_ds *buf; //IPC_STAT & IPC_SET
 	unsigned short *array; //SETALL
 	struct seminfo *__buff;} 
-}
+};
 int main(){
   key_t sem_key = ftok(".",'S');
   key_t mem_key = ftok(".",'R');
