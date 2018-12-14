@@ -53,7 +53,7 @@ int main(int argc, char* argv[]){
 
   if (strcmp(argv[1],"-v") == 0){
     int fd = open("story", O_RDONLY);
-    char story[10000];
+    char * story = calloc(10000,1);
     read(fd,story,10000);
     printf("%s\n",story);
     close(fd);

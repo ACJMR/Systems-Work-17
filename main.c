@@ -17,11 +17,15 @@ int main(){
   struct sembuf opp;
   opp.sem_op = -1;
   opp.sem_flg = SEM_UNDO;
+  opp.sem_num = 0;
   semop(semID,&opp,1); //DOWNS the semaphore
+
+  printf("%d\n",semctl(semID,0,GETVAL));
+
   int memID = shmget(mem_key,127,0); //accesses shared mem
   char * data = shmat(memID,0,0); //attaches shared mem to data
 
-  char bytes = data[0]; //gets size of message in shared mem
+  int bytes = data[0]; //gets size of message in shared mem
 
   if (!bytes){
     printf("Please input a phrase\n");
@@ -35,7 +39,12 @@ int main(){
   char answer[127];
   fgets(answer,127,stdin); //gets user input
 
-  bytes = sizeof(answer);
+  int i = 0;
+  while(answer[i]){ //gets size of answer
+    i++;
+  }
+
+  bytes = i;
 
   data[0] = bytes; //writes bytes to first slot in shared mem
   strcpy(&data[1],answer); //writes string to shared mem
@@ -47,7 +56,7 @@ int main(){
   close(fd);
 
   opp.sem_op = 1;
-  semop(semID,&opp,1); //UPS the semaphore
+  semop(semID,&opp,1); //UPs the semaphore
 
   return 0;
 }
