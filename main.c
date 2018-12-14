@@ -21,8 +21,6 @@ int main(){
   opp.sem_num = 0;
   semop(semID,&opp,1); //DOWNS the semaphore
 
-  printf("%d\n",semctl(semID,0,GETVAL));
-
   int memID = shmget(mem_key,127,0); //accesses shared mem
   char * data = shmat(memID,0,0); //attaches shared mem to data
 
